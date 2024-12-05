@@ -21,16 +21,6 @@ bool isValidPosition(const std::vector<std::vector<char>>& grid, const Ship& shi
     return true;
 }
 
-// void placeShip(std::vector<std::vector<int>>& grid, const Ship& ship) {
-//     int dx = (ship.direction == 'h') ? 1 : 0;
-//     int dy = (ship.direction == 'v') ? 1 : 0;
-    
-//     for (int i = 0; i < ship.type; i++) {
-//         int nx = ship.x + i * dy;
-//         int ny = ship.y + i * dx;
-//         grid[nx][ny] = ship.type; // Đánh dấu tàu trên lưới
-//     }
-// }
 
 void placeShip(std::vector<std::vector<char>>& grid, const Ship& ship) {
     int dx = (ship.direction == 'h') ? 1 : 0;
@@ -43,17 +33,37 @@ void placeShip(std::vector<std::vector<char>>& grid, const Ship& ship) {
     }
 }
 
-
-void DisplayGrid(int width, int height) {
-    if(width == 0 && height == 0) {
+void DrawGrid() {
+    auto game = Game::GetInstance();
+    if(game->GetWidth() == 0 || game->GetHeight() == 0) {
         return;
     }
- 
-    auto game = Game::GetInstance();
+    std::vector<std::vector<char>> grid = CreateMap(game->GetHeight(), game->GetWidth());
 
-    // for (auto &shotP : game->shotPoints) {
-    //     game->board[shotP.first][shotP.second] = 'x';  
-    // }
+    std::cout << "   ";  
+    for (int col = 0; col < game->GetWidth(); col++) {
+        std::cout << col << ' ';
+    }
+    std::cout << '\n';
+
+    for (int row = 0; row < game->GetHeight(); row++) {
+        std::cout << row << "  ";  // Tọa độ hàng
+        for (int col = 0; col < game->GetWidth(); col++) {
+            std::cout << grid[row][col] << ' ';
+        }
+        std::cout << '\n';
+    }
+}
+
+
+void DisplayGrid(int width, int height) {
+    if(width == 0 || height == 0) {
+        return;
+    }
+    auto game = Game::GetInstance();
+    if(game->board.empty()) {
+        return;
+    }
 
     std::cout << "   ";  
     for (int col = 0; col < width; col++) {

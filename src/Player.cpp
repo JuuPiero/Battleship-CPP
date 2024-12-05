@@ -47,7 +47,10 @@ void Player::DisplaytListShip() {
 
 void Player::DisplayMap() {
     auto game = Game::GetInstance();
-    if(game->GetWidth() == 0 && game->GetHeight() == 0) {
+    if(game->GetWidth() == 0 || game->GetHeight() == 0) {
+        return;
+    }
+    if(map.empty()) {
         return;
     }
     std::cout << "   ";  // Dành chỗ cho tọa độ hàng

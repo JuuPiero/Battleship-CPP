@@ -16,3 +16,4 @@ std::pair<int, int> GetRandomTarget(const std::vector<std::vector<char>>& grid);
 inline std::vector<std::vector<char>> CreateMap(int rows, int cols, char defaultValue = '~') {
     return std::vector<std::vector<char>>(rows, std::vector<char>(cols, defaultValue));
 }
+void DrawGrid();

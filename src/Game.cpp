@@ -56,10 +56,10 @@ void Game::Render() {
     std::cout << "\t\tBATTLESHIP GAME" << std::endl;
     std::cout << "Run 'help' for more information on a command." << std::endl;
     // std::cout << "Or run 'load default.txt' for quick setup game with default." << std::endl << std::endl;
-    
     if(!isPlaying) {
         currentPlayer->DisplayMap();
         std::cout << std::endl;
+        DrawGrid();
     }
     else {
         slave->DisplayMap();
