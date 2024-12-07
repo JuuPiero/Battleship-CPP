@@ -16,20 +16,5 @@ void StartCommand::Execute(const std::vector<std::string>& args) {
     game->currentPlayer = game->slave;
     game->Render();
     std::cout << "ok" << std::endl;
-
-    // std::string newInput;
-    // int x, y;
-    // while(true) {
-    //     std::cout << "is playing...:";
-    //     std::getline(std::cin, newInput);
-    //     if(newInput == "stop") {
-    //         std::cout << "ok" << std::endl;
-    //         break;
-    //     }
-    //     // std::cin >> x >> y;
-    //     // if(x < 0 || y < 0 || x >= game->GetWidth() || y >= game->GetHeight()) {
-    //     //     std::cout << "Invalid location" << std::endl;
-    //     //     continue;
-    //     // }
-    // }
+   
 }

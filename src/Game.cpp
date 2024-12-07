@@ -1,4 +1,4 @@
-#define DEBUG 1
+#define DEBUG 0
 #include "Game.h"
 #include <string>
 #include <fstream>
@@ -55,7 +55,7 @@ void Game::Render() {
     system("cls");
     std::cout << "\t\tBATTLESHIP GAME" << std::endl;
     std::cout << "Run 'help' for more information on a command." << std::endl;
-    // std::cout << "Or run 'load default.txt' for quick setup game with default." << std::endl << std::endl;
+#if DEBUG
     if(!isPlaying) {
         currentPlayer->DisplayMap();
         std::cout << std::endl;
@@ -68,13 +68,11 @@ void Game::Render() {
             DisplayGrid(m_Width, m_Height);
             std::cout << std::endl;
         }
-#if DEBUG
         master->DisplayMap();
+    }
 #endif
 
-    }
 }
-
 
 // void Game::Load(const char* path) {
 //     std::ifstream file(path);

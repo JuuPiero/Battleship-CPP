@@ -8,7 +8,7 @@ void GetCommand::Execute(const std::vector<std::string>& args) {
         return;
     }
 
-    if (args.size() <= 1) { // Kiểm tra xem args[1] có tồn tại không
+    if (args.size() <= 1) { 
         std::cout << "Missing argument" << std::endl;
         std::cout << "\tUse 'get width' " << std::endl;
         std::cout << "\tUse 'get height' " << std::endl;

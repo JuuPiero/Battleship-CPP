@@ -5,7 +5,6 @@
 void CommandProcessor::ExecuteCommand(const std::string& input) {
     auto tokens = SplitInput(input);
     if (tokens.empty()) {
-        // std::cout << "No command entered." << std::endl;
         return;
     }
 
@@ -13,7 +12,7 @@ void CommandProcessor::ExecuteCommand(const std::string& input) {
     auto it = commands.find(commandName);
     
     if (it != commands.end()) {
-        it->second->Execute(tokens); // Truyền các token còn lại vào hàm execute
+        it->second->Execute(tokens); 
     } else {
         std::cout << "Unknown command: " << commandName << std::endl;
     }

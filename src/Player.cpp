@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 Player::Player(Role role): role(role) {}
-void Player::Shoot(int x, int y) {
+bool Player::Shoot(int x, int y) {
     auto game = Game::GetInstance();
     std::set<char> validValues = {'1', '2', '3', '4'};
 
@@ -22,18 +22,21 @@ void Player::Shoot(int x, int y) {
             char type = enemy->map[x][y];
             enemy->map[y][x] = 'H';
             game->Render();
-            std::cout << "hit" << std::endl;
+            return true;
         }
         else if (enemy->map[y][x] == '~') {
             game->board[y][x] = 'M';
             game->Render();
-            std::cout << "miss" << std::endl;
+            return false;
+            // std::cout << "miss" << std::endl;
         }
         else {
-            std::cout << "miss" << std::endl;
+            return false;
+            // std::cout << "miss" << std::endl;
         }
     } else {
         std::cout << "Invalid coordinates!" << std::endl;
+        return false;
     }
 }
 
@@ -53,14 +56,14 @@ void Player::DisplayMap() {
     if(map.empty()) {
         return;
     }
-    std::cout << "   ";  // Dành chỗ cho tọa độ hàng
+    std::cout << "   ";  
     for (int col = 0; col < game->GetWidth(); col++) {
         std::cout << col << ' ';
     }
     std::cout << '\n';
 
     for (int row = 0; row < game->GetHeight(); row++) {
-        std::cout << row << "  ";  // Tọa độ hàng
+        std::cout << row << "  "; 
         for (int col = 0; col < game->GetWidth(); col++) {
             std::cout << map[row][col] << ' ';
         }
@@ -69,22 +72,23 @@ void Player::DisplayMap() {
 }
 
 
-void Player::ShootOrdered(std::vector<std::vector<char>>& grid) {
+bool Player::ShootOrdered(std::vector<std::vector<char>>& grid) {
     auto game = Game::GetInstance();
     std::set<char> validValues = {'1', '2', '3', '4'};
     
-    for (size_t y = 0; y < grid.size(); ++y) {        // Duyệt từng hàng (trục dọc)
-        for (size_t x = 0; x < grid[y].size(); ++x) { // Duyệt từng cột (trục ngang)
+    for (size_t y = 0; y < grid.size(); ++y) {        
+        for (size_t x = 0; x < grid[y].size(); ++x) { 
             if (grid[y][x] == '~') { 
                 grid[y][x] = 'M'; 
-                return;
+                return false;
             }
             else if(validValues.count(grid[y][x])) {
                 grid[y][x] = 'H';
-                return; 
+                return true; 
             }
         }
     }
+    return false;
 }
 
 
@@ -102,9 +106,8 @@ bool Player::IsWinner() {
             }
         }
     }
-    return true; // Thắng
+    return true; 
 }
-
 
 bool Player::IsLose() {
     std::set<char> validValues = {'1', '2', '3', '4'};
@@ -116,36 +119,20 @@ bool Player::IsLose() {
             }
         }
     }
-    return true; // Thua
+    return true;
 }
 
 
-
-
-// Hàm xử lý lượt bắn tự động thông minh
-void Player::ShootCustom(std::vector<std::vector<char>>& grid) {
-    // std::vector<std::vector<char>>& grid, std::queue<std::pair<int, int>>& targets
+bool Player::ShootCustom(std::vector<std::vector<char>>& grid) {
     auto game = Game::GetInstance();
     std::set<char> validValues = {'1', '2', '3', '4'};
    
-    // if (!targets.empty()) {
-    //     std::cout << "Have .\n";
-    //     while (!targets.empty()) {
-    //         auto [x, y] = targets.front();
-    //         targets.pop(); // Lấy phần tử đầu tiên ra và xóa nó khỏi bản sao
-    //         std::cout << "(" << x << ", " << y << ") ";
-    //     }
-    //     // return;
-    //     exit(0);
-    //     // fore
-    // }
+  
     const std::vector<std::pair<int, int>> directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
     while (!targets.empty()) {
         auto [x, y] = targets.front();
         targets.pop();
-
-        // std::cout <<
-        // Kiểm tra tính hợp lệ của ô
+        
         if (x < 0 || x >= grid[0].size() || y < 0 || y >= grid.size() || grid[y][x] != 'H' || grid[y][x] != 'M') {
             continue; // Bỏ qua ô không hợp lệ hoặc đã bắn
         }
@@ -157,10 +144,10 @@ void Player::ShootCustom(std::vector<std::vector<char>>& grid) {
             for (const auto& [dx, dy] : directions) {
                 targets.push({x + dx, y + dy});
             }
-            return; // Dừng sau khi bắn trúng
+            return true; // Dừng sau khi bắn trúng
         } else {
             grid[y][x] = 'M'; // Đánh dấu đã bắn nhưng không trúng
-            return; // Dừng sau khi bắn
+            return false; // Dừng sau khi bắn
         }
     }
 
@@ -168,9 +155,7 @@ void Player::ShootCustom(std::vector<std::vector<char>>& grid) {
         std::cout << "Queue is empty. Choosing random target.\n";
         auto [rx, ry] = GetRandomTarget(grid);
         if (rx != -1 && ry != -1) {
-            // std::cout << "Computer fired at (" << rx << ", " << ry << ").\n";
             if (validValues.count(grid[ry][rx])) {
-                std::cout << "hit\n";
                 grid[ry][rx] = 'H'; 
                 for (const auto& [dx, dy] : directions) {
                     int nx = rx + dx;
@@ -179,31 +164,14 @@ void Player::ShootCustom(std::vector<std::vector<char>>& grid) {
                         targets.push({nx, ny});
                     }
                 }
+                return true; 
             } else {
                 grid[ry][rx] = 'M'; // Đánh dấu không trúng
+                // game->slave->map[ry][rx] = 'M';
+                return false; 
             }
         }
-        return;
+        return false;
     }
-
-
-    // for (size_t y = 0; y < grid.size(); ++y) {
-    //     for (size_t x = 0; x < grid[y].size(); ++x) {
-    //         if (grid[y][x] == '~') { // '.' đại diện cho ô chưa bị bắn
-    //             grid[y][x] = 'M';   // Đánh dấu đã bắn
-    //             return;
-    //         }
-    //         else if(validValues.count(grid[y][x])) {
-    //             grid[y][x] = 'H';
-    //             std::cout << "hit";
-    //             for (const auto& [dx, dy] : directions) {
-    //                 targets.push({x + dx, y + dy});
-    //             }
-    //             return; // Ngừng bắn sau khi tìm thấy mục tiêu
-    //         }
-
-        // }
-    // }
-
-    // std::cout << "Computer has no valid targets left to fire.\n";
+   return false;
 }

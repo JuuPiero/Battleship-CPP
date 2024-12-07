@@ -16,10 +16,10 @@ public:
     };
     Player(Role role);
     ~Player() = default;
-    void Shoot(int x, int y);
+    bool Shoot(int x, int y);
     // void Shot(int x, int y);
-    void ShootOrdered(std::vector<std::vector<char>>& grid);
-    void ShootCustom(std::vector<std::vector<char>>& grid);
+    bool ShootOrdered(std::vector<std::vector<char>>& grid);
+    bool ShootCustom(std::vector<std::vector<char>>& grid);
 
     void DisplaytListShip();
 
