@@ -38,7 +38,6 @@ void DrawGrid(std::vector<std::vector<char>>& grid) {
     if(game->GetWidth() == 0 || game->GetHeight() == 0) {
         return;
     }
-    // std::vector<std::vector<char>> grid = CreateMap(game->GetHeight(), game->GetWidth());
 
     std::cout << "   ";  
     for (int col = 0; col < game->GetWidth(); col++) {

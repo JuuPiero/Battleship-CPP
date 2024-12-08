@@ -84,7 +84,7 @@ void Player::DisplayMap() {
 }
 
 
-bool Player::ShootOrdered() {
+std::tuple<int, int, bool>  Player::ShootOrdered() {
     // if(!IsMaster());
     auto game = Game::GetInstance();
     auto& grid = game->slave->map;
@@ -95,15 +95,15 @@ bool Player::ShootOrdered() {
         for (size_t x = 0; x < grid[y].size(); ++x) { 
             if (grid[y][x] == '~') { 
                 grid[y][x] = 'M'; 
-                return false;
+                return std::make_tuple(x, y, false);
             }
             else if(validValues.count(grid[y][x])) {
                 grid[y][x] = 'H';
-                return true; 
+                return std::make_tuple(x, y, true);
             }
         }
     }
-    return false;
+    return std::make_tuple(-1, -1, false);
 }
 
 bool Player::IsWinner() {
@@ -137,7 +137,7 @@ bool Player::IsLose() {
 }
 
 
-bool Player::ShootCustom() {
+std::tuple<int, int, bool>  Player::ShootCustom() {
     auto& grid = Game::GetInstance()->slave->map;
 
 
@@ -161,15 +161,16 @@ bool Player::ShootCustom() {
             for (const auto& [dx, dy] : directions) {
                 targets.push({x + dx, y + dy});
             }
-            return true; // Dừng sau khi bắn trúng
+            // return true; // Dừng sau khi bắn trúng
+            return std::make_tuple(x, y, true);
         } else {
             grid[y][x] = 'M'; // Đánh dấu đã bắn nhưng không trúng
-            return false; // Dừng sau khi bắn
+            // return false; // Dừng sau khi bắn
+            return std::make_tuple(x, y, false);
         }
     }
 
     if (targets.empty()) {
-        std::cout << "Queue is empty. Choosing random target.\n";
         auto [rx, ry] = GetRandomTarget(grid);
         if (rx != -1 && ry != -1) {
             if (validValues.count(grid[ry][rx])) {
@@ -181,14 +182,15 @@ bool Player::ShootCustom() {
                         targets.push({nx, ny});
                     }
                 }
-                return true; 
+                // return true; 
+                return std::make_tuple(rx, ry, true);
             } else {
                 grid[ry][rx] = 'M'; // Đánh dấu không trúng
-                // game->slave->map[ry][rx] = 'M';
-                return false; 
+                // return false; 
+                return std::make_tuple(rx, ry, false);
             }
         }
-        return false;
+        return std::make_tuple(-1, -1, false);
     }
-   return false;
+    return std::make_tuple(-1, -1, false);
 }

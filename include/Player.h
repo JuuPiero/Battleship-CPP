@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 #include <queue>
+#include <tuple>
+
 class Player {
 public:
     enum Role {
@@ -17,8 +19,8 @@ public:
     Player(Role role);
     ~Player() = default;
     bool Shoot(int x, int y);
-    bool ShootOrdered();
-    bool ShootCustom();
+    std::tuple<int, int, bool> ShootOrdered();
+    std::tuple<int, int, bool> ShootCustom();
 
     void DisplaytListShip();
     void DisplayMap();
