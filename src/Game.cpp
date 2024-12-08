@@ -1,4 +1,4 @@
-#define DEBUG 0
+#define DEBUG 1
 #include "Game.h"
 #include <string>
 #include <fstream>
@@ -20,7 +20,6 @@ void Game::Initialize() {
     Reset();
     master = std::make_shared<Player>(Player::Role::MASTER);
     master->strategy = Player::Strategy::ORDERED; //default
-
     slave = std::make_shared<Player>(Player::Role::SLAVE);
     currentPlayer = master;
 
@@ -59,7 +58,7 @@ void Game::Render() {
     if(!isPlaying) {
         currentPlayer->DisplayMap();
         std::cout << std::endl;
-        DrawGrid();
+        // DrawGrid(board);
     }
     else {
         slave->DisplayMap();
@@ -68,20 +67,27 @@ void Game::Render() {
             DisplayGrid(m_Width, m_Height);
             std::cout << std::endl;
         }
+    #if CHEAT
         master->DisplayMap();
+    #endif
+
     }
 #endif
 
 }
 
-// void Game::Load(const char* path) {
-//     std::ifstream file(path);
-//     if (!file) {
-//         std::cerr << "Cannot open file:" << path << std::endl;
-//         return;
-//     }
+void Game::SetWidth(uint64_t width) {
+    m_Width = width;
+    if(m_Width && m_Height) {
+        board = CreateMap(m_Width, m_Height);
+        slave->map = CreateMap(m_Width, m_Height);
+    }
 
-//     file >> m_Width >> m_Height;
-//     board = CreateMap(m_Height, m_Width);
-
-// }
+}
+void Game::SetHeight(uint64_t height) {
+    m_Height = height;
+    if(m_Width && m_Height) {
+        board = CreateMap(m_Width, m_Height);
+        slave->map = CreateMap(m_Width, m_Height);
+    }
+}

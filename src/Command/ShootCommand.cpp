@@ -2,7 +2,6 @@
 #include "Game.h"
 
 void ShootCommand::Execute(const std::vector<std::string>& args) {
-
     if(args.size() < 3) {
         std::cout << "Too few arguments" << std::endl;
         return;
@@ -24,11 +23,10 @@ void ShootCommand::Execute(const std::vector<std::string>& args) {
     bool result = game->currentPlayer->Shoot(x, y);
   
     if(game->master->strategy == Player::Strategy::ORDERED) {
-        game->master->ShootOrdered(game->slave->map);
+        game->master->ShootOrdered();
     }
     else if(game->master->strategy == Player::Strategy::CUSTOM) {
-        game->master->ShootCustom(game->slave->map);
-
+        game->master->ShootCustom();
     }
     game->Render();
     std::cout << (result ? "hit" : "miss") << std::endl;

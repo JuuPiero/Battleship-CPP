@@ -22,7 +22,7 @@ bool isValidPosition(const std::vector<std::vector<char>>& grid, const Ship& shi
 }
 
 
-void placeShip(std::vector<std::vector<char>>& grid, const Ship& ship) {
+void PlaceShip(std::vector<std::vector<char>>& grid, const Ship& ship) {
     int dx = (ship.direction == 'h') ? 1 : 0;
     int dy = (ship.direction == 'v') ? 1 : 0;
     
@@ -33,12 +33,12 @@ void placeShip(std::vector<std::vector<char>>& grid, const Ship& ship) {
     }
 }
 
-void DrawGrid() {
+void DrawGrid(std::vector<std::vector<char>>& grid) {
     auto game = Game::GetInstance();
     if(game->GetWidth() == 0 || game->GetHeight() == 0) {
         return;
     }
-    std::vector<std::vector<char>> grid = CreateMap(game->GetHeight(), game->GetWidth());
+    // std::vector<std::vector<char>> grid = CreateMap(game->GetHeight(), game->GetWidth());
 
     std::cout << "   ";  
     for (int col = 0; col < game->GetWidth(); col++) {

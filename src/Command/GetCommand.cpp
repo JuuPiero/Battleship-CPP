@@ -49,6 +49,15 @@ void GetCommand::Execute(const std::vector<std::string>& args) {
         }
 
     }
+    else if(args[1] == "info") {
+        std::cout << "Width: " << game->GetWidth() << std::endl;
+        std::cout << "Height: " << game->GetHeight() << std::endl;
+        std::cout << "Ship type 1: " << game->countShipType_1 << std::endl;
+        std::cout << "Ship type 2: " << game->countShipType_2 << std::endl;
+        std::cout << "Ship type 3: " << game->countShipType_3 << std::endl;
+        std::cout << "Ship type 4: " << game->countShipType_4 << std::endl;
+        std::cout << "Status: " << (game->isPlaying ? "is playing..." : "hasn't started") << std::endl;
+    }
     else {
         std::cout << "Unknown argument: " << args[1] << std::endl;
     }

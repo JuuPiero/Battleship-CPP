@@ -36,12 +36,11 @@ void SetCommand::Execute(const std::vector<std::string>& args) {
             std::cout << "Missing argument" << std::endl;
             return;
         }
-        int count = atoi(args[3].c_str()); // quantity of 
         int type = atoi(args[2].c_str());
+        int count = atoi(args[3].c_str());
         if(type < 0 || type > 4) {
             std::cout << "Not valid ship type [1, 2, 3, 4]" << std::endl;
         }
-        //TODO Set count ship type
         switch (type) {
             case 1:
                 game->countShipType_1 = count;

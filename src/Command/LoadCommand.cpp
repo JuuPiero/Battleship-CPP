@@ -19,9 +19,11 @@ void LoadCommand::Execute(const std::vector<std::string>& args) {
     uint64_t w, h;
     file >> w >> h;
     if(game->currentPlayer->IsMaster()) {
-        game->Reset();
-        game->SetWidth(w);
-        game->SetHeight(h);
+        //game->Reset();
+        if(!game->GetWidth() || !game->GetHeight()) {
+            game->SetWidth(w);
+            game->SetHeight(h);
+        }
         game->board = CreateMap(game->GetHeight(), game->GetWidth());
         game->master->map = CreateMap(game->GetHeight(), game->GetWidth());
         game->slave->map = CreateMap(game->GetHeight(), game->GetWidth());
@@ -39,8 +41,7 @@ void LoadCommand::Execute(const std::vector<std::string>& args) {
     while (file >> type >> direction >> x >> y) {
         Ship ship = {type, direction, x, y};
         if (isValidPosition(game->board, ship, w, h)) {
-            // placeShipChar(game->board, ship);
-            placeShip(game->currentPlayer->map, ship);
+            PlaceShip(game->currentPlayer->map, ship);
             ships.push_back(ship);
             ///////////////////////
             if(game->currentPlayer->IsMaster()) {

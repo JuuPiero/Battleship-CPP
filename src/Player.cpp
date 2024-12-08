@@ -19,13 +19,14 @@ bool Player::Shoot(int x, int y) {
     if (x >= 0 && x < game->board.size() && y >= 0 && y < game->board[0].size() && enemy->IsMaster()) {
         if(validValues.count(enemy->map[y][x]) && game->board[y][x] != 'H') {
             game->board[y][x] = 'H'; // Bắn trúng
-            char type = enemy->map[x][y];
+            // char type = enemy->map[x][y];
             enemy->map[y][x] = 'H';
             game->Render();
             return true;
         }
         else if (enemy->map[y][x] == '~') {
             game->board[y][x] = 'M';
+            enemy->map[y][x] = 'M';
             game->Render();
             return false;
             // std::cout << "miss" << std::endl;
@@ -40,6 +41,17 @@ bool Player::Shoot(int x, int y) {
     }
 }
 
+
+bool Player::MapEmpty() {
+    auto game = Game::GetInstance();
+    for (int row = 0; row < game->GetHeight(); row++) {
+        for (int col = 0; col < game->GetWidth(); col++) {
+            if(map[row][col] != '~') return false;
+        }
+    }
+    return true;
+}
+
 void Player::DisplaytListShip() {
     for (auto &ship : ships) {
         std::cout << "Ship " << ship.type << std::endl;
@@ -50,7 +62,7 @@ void Player::DisplaytListShip() {
 
 void Player::DisplayMap() {
     auto game = Game::GetInstance();
-    if(game->GetWidth() == 0 || game->GetHeight() == 0) {
+    if(!game->GetWidth() || !game->GetHeight()) {
         return;
     }
     if(map.empty()) {
@@ -72,8 +84,11 @@ void Player::DisplayMap() {
 }
 
 
-bool Player::ShootOrdered(std::vector<std::vector<char>>& grid) {
+bool Player::ShootOrdered() {
+    // if(!IsMaster());
     auto game = Game::GetInstance();
+    auto& grid = game->slave->map;
+    
     std::set<char> validValues = {'1', '2', '3', '4'};
     
     for (size_t y = 0; y < grid.size(); ++y) {        
@@ -90,7 +105,6 @@ bool Player::ShootOrdered(std::vector<std::vector<char>>& grid) {
     }
     return false;
 }
-
 
 bool Player::IsWinner() {
     std::set<char> validValues = {'1', '2', '3', '4'};
@@ -123,7 +137,10 @@ bool Player::IsLose() {
 }
 
 
-bool Player::ShootCustom(std::vector<std::vector<char>>& grid) {
+bool Player::ShootCustom() {
+    auto& grid = Game::GetInstance()->slave->map;
+
+
     auto game = Game::GetInstance();
     std::set<char> validValues = {'1', '2', '3', '4'};
    

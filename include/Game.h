@@ -11,14 +11,13 @@ public:
     static std::shared_ptr<Game> GetInstance();
     void Initialize();
     void Run();
-    // void Load(const char* path);
     void Render();
 
     inline uint64_t GetWidth() const { return m_Width; }
     inline uint64_t GetHeight() const { return m_Height; }
 
-    inline void SetWidth(uint64_t width) { m_Width = width; }
-    inline void SetHeight(uint64_t height) { m_Height = height; }
+    void SetWidth(uint64_t width);
+    void SetHeight(uint64_t height);
 
     inline void Reset() {
         isPlaying = false;
@@ -45,7 +44,6 @@ private:
     uint64_t m_Width;
     uint64_t m_Height;
     
-
     std::unique_ptr<CommandProcessor> m_Processor;
     static std::shared_ptr<Game> s_Instance;
 };  

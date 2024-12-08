@@ -17,14 +17,14 @@ public:
     Player(Role role);
     ~Player() = default;
     bool Shoot(int x, int y);
-    // void Shot(int x, int y);
-    bool ShootOrdered(std::vector<std::vector<char>>& grid);
-    bool ShootCustom(std::vector<std::vector<char>>& grid);
+    bool ShootOrdered();
+    bool ShootCustom();
 
     void DisplaytListShip();
-
     void DisplayMap();
     inline bool IsMaster() const { return role == Role::MASTER; };
+
+    bool MapEmpty();
     bool IsWinner();
     bool IsLose();
 public:
@@ -33,5 +33,5 @@ public:
     std::vector<std::vector<char>> map;
     std::queue<std::pair<int, int>> targets;
     bool isWinner = false;
-    Strategy strategy = Strategy::NONE;
+    Strategy strategy;
 };
