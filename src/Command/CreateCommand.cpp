@@ -9,12 +9,11 @@ void CreateCommand::Execute(const std::vector<std::string>& args) {
         std::cout << "Too many arguments" << std::endl;
         return;
     }
-
     auto game = Game::GetInstance();
-    if(game->isPlaying) {
-        std::cout << "Cannot create while playing " << std::endl;
-        return;
-    }
+    // if(game->isPlaying) {
+    //     std::cout << "Cannot create while playing " << std::endl;
+    //     return;
+    // }
     if(args[1] == "master") {
         game->currentPlayer = game->master;
     }

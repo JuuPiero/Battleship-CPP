@@ -58,7 +58,6 @@ void Game::Render() {
     if(!isPlaying) {
         currentPlayer->DisplayMap();
         std::cout << std::endl;
-        // DrawGrid(board);
     }
     else {
         slave->DisplayMap();
@@ -81,6 +80,7 @@ void Game::SetWidth(uint64_t width) {
     if(m_Width && m_Height) {
         board = CreateMap(m_Width, m_Height);
         slave->map = CreateMap(m_Width, m_Height);
+        master->map = CreateMap(m_Width, m_Height);
     }
 
 }
@@ -89,5 +89,6 @@ void Game::SetHeight(uint64_t height) {
     if(m_Width && m_Height) {
         board = CreateMap(m_Width, m_Height);
         slave->map = CreateMap(m_Width, m_Height);
+        master->map = CreateMap(m_Width, m_Height);
     }
 }

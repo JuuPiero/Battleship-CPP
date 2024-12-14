@@ -1,3 +1,0 @@
-E:/Workspace/CPP/BattleShipv2/build/CMakeFiles/Battleship.dir
-E:/Workspace/CPP/BattleShipv2/build/CMakeFiles/edit_cache.dir
-E:/Workspace/CPP/BattleShipv2/build/CMakeFiles/rebuild_cache.dir

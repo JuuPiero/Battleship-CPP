@@ -1,3 +1,0 @@
-E:\App\CMake\bin\cmake.exe -E rm -f CMakeFiles\Battleship.dir/objects.a
-E:\App\mingw64\bin\ar.exe qc CMakeFiles\Battleship.dir/objects.a @CMakeFiles\Battleship.dir\objects1.rsp
-E:\App\mingw64\bin\g++.exe -Wl,--whole-archive CMakeFiles\Battleship.dir/objects.a -Wl,--no-whole-archive -o Battleship.exe -Wl,--out-implib,libBattleship.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Battleship.dir\linkLibs.rsp
